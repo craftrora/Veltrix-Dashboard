@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import RoleSelectionPage from "./pages/RoleSelectionPage";
 import SupervisorDashboard from "./pages/SupervisorDashboard";
 import FleetPage from "./pages/FleetPage";
@@ -19,6 +20,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignUpPage />} />
       <Route path="/select-role" element={<RoleSelectionPage />} />
       <Route path="/dashboard/supervisor" element={<SupervisorDashboard />} />
       <Route path="/dashboard/supervisor/fleet" element={<FleetPage />} />

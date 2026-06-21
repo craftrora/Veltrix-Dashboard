@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, PieChart, Pie, Cell, Legend } from "recharts";
 import { TrendingUp, TrendingDown, Target, Layers, Clock3, Users, Award, X } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import DashboardTopBar from "../components/DashboardTopBar";
+import DashboardShell from "../components/DashboardShell";
 import SectionHeader from "../components/SectionHeader";
 import InsightPanel from "../components/InsightPanel";
 import { generateProductionInsights } from "../lib/insightEngine";
@@ -57,16 +56,7 @@ export default function ProductionPage() {
   const insights = generateProductionInsights(PRODUCTION_MONTHLY_TREND, PRODUCTION_BY_ZONE, TARGET_VS_ACTUAL_WEEK);
 
   return (
-    <div className="relative flex min-h-screen bg-background">
-      <div className="pointer-events-none fixed left-1/4 top-0 h-[420px] w-[600px] rounded-full bg-primary/[0.06] blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 right-0 h-[360px] w-[480px] rounded-full bg-sky-500/[0.04] blur-[150px]" />
-
-      <Sidebar />
-
-      <div className="relative z-10 min-w-0 flex-1">
-        <DashboardTopBar title="Production" subtitle="Site 4 — output, targets, and shift performance" />
-
-        <main className="space-y-6 px-8 py-6">
+    <DashboardShell title="Production" subtitle="Site 4 — output, targets, and shift performance">
           {/* Summary strip */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="glass hover-lift animate-fade-up rounded-xl p-5">
@@ -296,8 +286,6 @@ export default function ProductionPage() {
               )}
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+    </DashboardShell>
   );
 }

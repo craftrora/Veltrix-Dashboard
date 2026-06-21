@@ -73,6 +73,13 @@
   --glass-border-alpha: 0.08;
   --glass-border-alpha-elevated: 0.1;
   --grid-line-alpha: 0.035;
+
+  /* Full-bleed hero background wash (theme-aware): black → orange in dark
+     mode, white → orange in light mode. Used on the landing page hero and
+     auth pages where a photo sits behind the page. */
+  --hero-overlay-from: #050607;
+  --hero-overlay-via: rgba(5, 6, 7, 0.85);
+  --hero-overlay-to: rgba(124, 45, 18, 0.55);
 }
 
 /* ============================================================
@@ -141,6 +148,11 @@
   --glass-border-alpha-elevated: 0.1;
   --grid-line-alpha: 0.05;
 
+  /* Light-mode hero wash: white → orange instead of black → orange */
+  --hero-overlay-from: #fffaf5;
+  --hero-overlay-via: rgba(255, 250, 245, 0.88);
+  --hero-overlay-to: rgba(253, 186, 116, 0.5);
+
   color-scheme: light;
 }
 
@@ -187,6 +199,10 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  --color-hero-overlay-from: var(--hero-overlay-from);
+  --color-hero-overlay-via: var(--hero-overlay-via);
+  --color-hero-overlay-to: var(--hero-overlay-to);
 
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;

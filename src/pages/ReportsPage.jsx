@@ -1,6 +1,5 @@
 import { FileText, Download, ShieldCheck, Calendar } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import DashboardTopBar from "../components/DashboardTopBar";
+import DashboardShell from "../components/DashboardShell";
 import SectionHeader from "../components/SectionHeader";
 import { AVAILABLE_REPORTS, SAFETY_METRICS } from "../data/supervisorData";
 import { cn } from "../lib/utils";
@@ -14,16 +13,7 @@ const TYPE_ACCENT = {
 
 export default function ReportsPage() {
   return (
-    <div className="relative flex min-h-screen bg-background">
-      <div className="pointer-events-none fixed left-1/4 top-0 h-[420px] w-[600px] rounded-full bg-primary/[0.06] blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 right-0 h-[360px] w-[480px] rounded-full bg-sky-500/[0.04] blur-[150px]" />
-
-      <Sidebar />
-
-      <div className="relative z-10 min-w-0 flex-1">
-        <DashboardTopBar title="Reports" subtitle="Generated reports and site safety summary" />
-
-        <main className="space-y-6 px-8 py-6">
+    <DashboardShell title="Reports" subtitle="Generated reports and site safety summary">
           {/* Safety metrics strip */}
           <div className="glass animate-fade-up rounded-xl p-5">
             <SectionHeader title="Safety Snapshot" description="Site 4 — month to date" actions={<ShieldCheck className="h-4 w-4 text-success" />} />
@@ -75,8 +65,6 @@ export default function ReportsPage() {
               ))}
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+    </DashboardShell>
   );
 }

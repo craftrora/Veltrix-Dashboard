@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from "react";
 import { cn } from "../lib/utils";
 
 const VARIANTS = {
@@ -18,31 +19,43 @@ const SIZES = {
  *  variant?: "primary" | "secondary" | "ghost",
  *  size?: "sm" | "md" | "lg",
  *  loading?: boolean,
+ *  asChild?: boolean,
  *  className?: string,
  * } & React.ButtonHTMLAttributes<HTMLButtonElement>} props
+ *
+ * When asChild is true, Button clones its single child element (e.g. a
+ * react-router-dom <Link>) and merges in the button's classes/props instead
+ * of wrapping it in a <button> — this is what lets "Get Started" actually
+ * navigate instead of rendering an inert <button> with no onClick/href.
  */
 export default function Button({
   variant = "primary",
   size = "md",
   loading = false,
+  asChild = false,
   className,
   children,
   disabled,
   ...props
 }) {
+  const classes = cn(
+    "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "disabled:cursor-not-allowed disabled:opacity-50",
+    VARIANTS[variant],
+    SIZES[size],
+    className
+  );
+
+  if (asChild && isValidElement(children)) {
+    return cloneElement(children, {
+      className: cn(classes, children.props.className),
+      ...props,
+    });
+  }
+
   return (
-    <button
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-all duration-200",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        VARIANTS[variant],
-        SIZES[size],
-        className
-      )}
-      disabled={disabled || loading}
-      {...props}
-    >
+    <button className={classes} disabled={disabled || loading} {...props}>
       {loading && (
         <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />

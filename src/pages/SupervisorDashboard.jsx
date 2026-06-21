@@ -1,6 +1,5 @@
 import { Boxes, Gauge, Truck, Fuel } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import DashboardTopBar from "../components/DashboardTopBar";
+import DashboardShell from "../components/DashboardShell";
 import KpiCard from "../components/KpiCard";
 import MineMap from "../components/MineMap";
 import FleetBalancer from "../components/FleetBalancer";
@@ -23,18 +22,8 @@ export default function SupervisorDashboard() {
   const fleetInsight = generateFleetHealthInsight(MACHINE_HEALTH);
   const overviewInsights = [fleetInsight, ...productionInsights.slice(0, 2)];
   return (
-    <div className="relative flex min-h-screen bg-background">
-      {/* Ambient glows — breaks up the flat dark background */}
-      <div className="pointer-events-none fixed left-1/4 top-0 h-[420px] w-[600px] rounded-full bg-primary/[0.06] blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 right-0 h-[360px] w-[480px] rounded-full bg-sky-500/[0.04] blur-[150px]" />
-
-      <Sidebar />
-
-      <div className="relative z-10 min-w-0 flex-1">
-        <DashboardTopBar title="Supervisor Overview" />
-
-        <main className="space-y-6 px-8 py-6">
-          {/* KPI row */}
+    <DashboardShell title="Supervisor Overview">
+      {/* KPI row */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <KpiCard
               label="Production Today"
@@ -106,8 +95,6 @@ export default function SupervisorDashboard() {
 
           {/* Auto-generated executive summary */}
           <InsightPanel title="Executive Summary — Auto-Generated" insights={overviewInsights} delay={500} />
-        </main>
-      </div>
-    </div>
+    </DashboardShell>
   );
 }

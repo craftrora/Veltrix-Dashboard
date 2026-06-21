@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { ArrowUpDown, Search, Download, Truck, Mountain, Drill as DrillIcon, X, Gauge, Clock, Fuel, User } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import DashboardTopBar from "../components/DashboardTopBar";
+import DashboardShell from "../components/DashboardShell";
 import StatusBadge from "../components/StatusBadge";
 import { FLEET_UNITS, STATUS_META } from "../data/supervisorData";
 import { cn } from "../lib/utils";
@@ -87,16 +86,7 @@ export default function FleetPage() {
   }, [sortKey, sortDir, statusFilter, query]);
 
   return (
-    <div className="relative flex min-h-screen bg-background">
-      <div className="pointer-events-none fixed left-1/4 top-0 h-[420px] w-[600px] rounded-full bg-primary/[0.06] blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 right-0 h-[360px] w-[480px] rounded-full bg-sky-500/[0.04] blur-[150px]" />
-
-      <Sidebar />
-
-      <div className="relative z-10 min-w-0 flex-1">
-        <DashboardTopBar title="Fleet" subtitle={`${FLEET_UNITS.length} units across Site 4`} />
-
-        <main className="px-8 py-6">
+    <DashboardShell title="Fleet" subtitle={`${FLEET_UNITS.length} units across Site 4`} mainClassName="">
           <div className="glass animate-fade-up rounded-xl">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-5">
               <div className="flex items-center gap-2 rounded-lg border border-border bg-input-background px-3 py-2">
@@ -204,8 +194,6 @@ export default function FleetPage() {
               </table>
             </div>
           </div>
-        </main>
-      </div>
 
       {/* Slide-over detail panel */}
       {detailUnit && (
@@ -293,6 +281,6 @@ export default function FleetPage() {
           </div>
         </>
       )}
-    </div>
+    </DashboardShell>
   );
 }

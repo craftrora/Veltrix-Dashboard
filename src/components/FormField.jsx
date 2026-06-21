@@ -8,10 +8,11 @@ import { cn } from "../lib/utils";
  *  type?: string,
  *  endAdornment?: React.ReactNode,
  *  error?: string,
+ *  hint?: string,
  * } & React.InputHTMLAttributes<HTMLInputElement>} props
  */
 const FormField = forwardRef(function FormField(
-  { label, icon, type = "text", endAdornment, error, className, id, ...props },
+  { label, icon, type = "text", endAdornment, error, hint, className, id, ...props },
   ref
 ) {
   const [focused, setFocused] = useState(false);
@@ -47,12 +48,13 @@ const FormField = forwardRef(function FormField(
             setFocused(false);
             props.onBlur?.(e);
           }}
-          className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/60 disabled:cursor-not-allowed"
+          className="w-full bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground/80 disabled:cursor-not-allowed"
           {...props}
         />
         {endAdornment && <span className="shrink-0">{endAdornment}</span>}
       </div>
       {error && <p className="mt-1.5 text-xs text-destructive">{error}</p>}
+      {!error && hint && <p className="mt-1.5 text-xs text-muted-foreground/80">{hint}</p>}
     </div>
   );
 });

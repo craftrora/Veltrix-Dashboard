@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { User, Bell, Globe, Shield, Save } from "lucide-react";
-import Sidebar from "../components/Sidebar";
-import DashboardTopBar from "../components/DashboardTopBar";
+import DashboardShell from "../components/DashboardShell";
 import SectionHeader from "../components/SectionHeader";
 import FormField from "../components/FormField";
 import Button from "../components/Button";
@@ -35,16 +34,7 @@ export default function SettingsPage() {
   const [units, setUnits] = useState("metric");
 
   return (
-    <div className="relative flex min-h-screen bg-background">
-      <div className="pointer-events-none fixed left-1/4 top-0 h-[420px] w-[600px] rounded-full bg-primary/[0.06] blur-[160px]" />
-      <div className="pointer-events-none fixed bottom-0 right-0 h-[360px] w-[480px] rounded-full bg-sky-500/[0.04] blur-[150px]" />
-
-      <Sidebar />
-
-      <div className="relative z-10 min-w-0 flex-1">
-        <DashboardTopBar title="Settings" subtitle="Account, notifications, and site preferences" />
-
-        <main className="mx-auto max-w-3xl space-y-6 px-8 py-6">
+    <DashboardShell title="Settings" subtitle="Account, notifications, and site preferences" mainClassName="mx-auto max-w-3xl space-y-6">
           {/* Profile */}
           <div className="glass animate-fade-up rounded-xl p-5">
             <SectionHeader title="Profile" description="Your account information" actions={<User className="h-4 w-4 text-muted-foreground" />} />
@@ -133,8 +123,6 @@ export default function SettingsPage() {
               Save Changes
             </Button>
           </div>
-        </main>
-      </div>
-    </div>
+    </DashboardShell>
   );
 }

@@ -230,6 +230,112 @@ Index atau klik zona di peta. Buka Fleet, klik salah satu baris unit. Buka
 Operator → Performance, klik titik di grafik 5-Day Trend dan perhatikan radar
 chart serta gauge skor di bagian atas.
 
+## Step 9 — Perbaikan Landing Page (mobile + copy + bug tombol)
+
+**Bug yang diperbaiki:**
+- Tombol "Get Started" sebelumnya tidak bisa diklik sama sekali — `Button`
+  selalu merender `<button>` polos tanpa navigasi. Sekarang `Button.jsx`
+  punya prop `asChild` yang membungkus `<Link>` dari react-router-dom dengan
+  benar, jadi tombol benar-benar pindah halaman ke `/login`.
+- Navbar mobile (<640px) sebelumnya berdesakan: Logo, ThemeToggle, dan tombol
+  "Get Started" lengkap semuanya muncul sekaligus dan kepotong di layar
+  kecil. Sekarang ada dua versi tombol terpisah (mobile pakai label pendek
+  "Start", desktop "Get Started") dan link "Sign in" baru muncul mulai layar
+  ≥420px supaya navbar tidak penuh sesak di iPhone standar.
+- Paragraf deskripsi hero sekarang pakai `text-balance`, supaya baris
+  terakhir tidak menggantung pendek sendirian (kesan "terputus" yang
+  sebelumnya terlihat di light mode).
+- Tombol "Watch Demo" sebelumnya juga tombol mati — sekarang men-scroll halus
+  ke strip statistik di bagian bawah sebagai CTA sekunder yang fungsional.
+
+**Copy & desain landing page dirombak:**
+- Headline diganti dari "Smart Mining. Stronger Future." (generik) menjadi
+  "Run the pit on certainty, not radio calls." — lebih spesifik ke masalah
+  nyata supervisor tambang (koordinasi armada lewat radio yang rawan delay
+  informasi).
+- Deskripsi diganti dari kalimat marketing umum ("AI-powered intelligence
+  layer") menjadi contoh konkret: "catch a failing brake line before it
+  strands a load" — bahasa operasional, bukan buzzword.
+- Badge live status disingkat jadi "LIVE · 27 UNITS ON SHIFT" — lebih padat
+  dan mono-data style yang konsisten dengan instrumen dashboard.
+- Statistik di bagian bawah hero diberi label lebih deskriptif (mis. "Sites
+  under VELTRIX" alih-alih "Sites online").
+
+Tidak ada perubahan pada halaman lain — Login, Role Selection, dan semua
+dashboard tetap seperti sebelumnya.
+
+## Step 10 — Perbaikan Bug Light/Dark Mode di Landing Page
+
+**Bug yang ditemukan dari screenshot Anda:**
+- Hero section (dengan foto background + floating card "Fleet Health",
+  "Tonnes Today", "Active Alerts") terlihat **identik** di dark mode maupun
+  light mode — toggle-nya berubah ikon tapi warna section sama sekali tidak
+  ikut berubah. Penyebabnya: overlay gradient di atas foto sebelumnya pakai
+  warna hardcoded, bukan token `background` yang seharusnya otomatis
+  menyesuaikan tema.
+- Section "Everything your control room needs" di light mode tampil putih
+  kosong tanpa tekstur, terkesan kurang matang — sekarang ditambah pattern
+  grid tipis (5% opacity) yang konsisten dengan bahasa visual instrumen di
+  bagian lain dashboard.
+- Floating instrument card (Fleet Health, Tonnes Today, Active Alerts) dan
+  4 kartu fitur (Fleet Intelligence, Failure Prediction, Production
+  Optimization, Safety Compliance) sekarang pakai class `glass`/
+  `glass-elevated` yang sudah terbukti theme-aware di seluruh dashboard,
+  bukan warna semi-transparan hardcoded.
+
+**Perbaikan lain dalam langkah ini:**
+- Floating instrument card disembunyikan di mobile (`hidden lg:block`) —
+  sebelumnya ketiga card itu kemungkinan tumpang tindih dengan teks hero di
+  layar sempit; sekarang hero mobile fokus ke headline + CTA saja, card
+  instrumen baru muncul di layar besar (≥1024px) di sisi kanan headline.
+- Section CTA banner bawah ("Ready to see your fleet in one view?") di-emphasis
+  dengan border `primary/20` dan background `primary/[0.06]` — di kedua tema
+  border oranye tetap terlihat jelas, beda dari sebelumnya yang pudar di
+  light mode.
+
+Cara cek: buka landing page, klik toggle matahari/bulan di pojok kanan atas,
+perhatikan seluruh halaman (hero, floating card, section fitur, CTA banner)
+ikut berubah serempak — bukan cuma sebagian.
+
+## Step 11 — Halaman Sign Up baru + perbaikan bug terakhir
+
+**Halaman baru:**
+- `src/pages/SignUpPage.jsx` — halaman pembuatan akun baru, route `/signup`.
+  Desainnya konsisten dengan Login (split layout, foto kiri, form kanan),
+  field: nama lengkap, perusahaan/site, email, password, konfirmasi
+  password. Setelah submit, otomatis login dan diarahkan ke `/select-role`
+  seperti alur login biasa.
+- Tombol "Get Started" di seluruh landing page sekarang mengarah ke
+  `/signup` (sebelumnya ke `/login`, jadi orang baru malah masuk ke form
+  sign-in yang salah). Tombol "Sign In" tetap ke `/login`.
+- Di halaman Login, "Need access?" diganti jadi link "Create a new VELTRIX
+  account" yang mengarah ke `/signup`. Di halaman Sign Up juga ada link
+  balik ke `/login` untuk yang sudah punya akun.
+
+**Bug yang diperbaiki:**
+- **Heading "Command your entire mining operation" hilang di light mode** —
+  sama seperti kasus landing page sebelumnya, ini pakai `text-white`
+  hardcoded. Sekarang diganti `text-foreground` di Login maupun Sign Up,
+  jadi otomatis gelap di light mode dan putih di dark mode.
+- **Placeholder email/password kurang terlihat** — opacity placeholder
+  dinaikkan dari 60% ke 80% supaya lebih jelas terbaca di kedua tema.
+- **Validasi password tidak terlihat** — sebenarnya validasi minimal 6
+  karakter sudah berjalan sejak awal, tapi baru muncul setelah submit
+  ditekan. Sekarang ditambah: (1) teks bantuan "Minimum 6 characters."
+  selalu tampil di bawah field password sebelum ada error, dan (2) validasi
+  langsung berjalan begitu pengguna pindah dari field password (on blur),
+  jadi feedback-nya lebih cepat terasa.
+- **Tombol "Sign in" di navbar landing page kurang terlihat** — sebelumnya
+  cuma teks polos tanpa border/background. Sekarang jadi tombol dengan
+  border dan background semi-transparan (`variant="secondary"`), ukurannya
+  disamakan tingginya dengan tombol "Get Started" supaya keduanya punya
+  bobot visual yang setara di navbar.
+
+**Headline landing page diganti** dari "Run the pit on certainty, not radio
+calls." (gaya santai) menjadi "Enterprise mining intelligence, built for
+operational scale." — lebih formal dan cocok untuk konteks presentasi ke
+investor/mitra korporat seperti Astra dan PAMA.
+
 ## Alur halaman saat ini
 
 `/` → Landing → `/login` → Sign in → `/select-role` → pilih Supervisor/Operator
