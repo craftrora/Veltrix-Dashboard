@@ -4,7 +4,6 @@ import { Eye, EyeOff, Mail, Lock, User, ArrowRight } from "lucide-react";
 import Logo from "../components/Logo";
 import FormField from "../components/FormField";
 import Button from "../components/Button";
-import ThemeToggle from "../components/ThemeToggle";
 import { useAuth } from "../context/useAuth";
 import miningLogin from "../assets/mining-login.jpg";
 
@@ -67,8 +66,6 @@ export default function SignUpPage() {
       {/* Ambient glows for depth */}
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-primary/20 blur-[100px] sm:h-96 sm:w-96 sm:blur-[140px]" />
       <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-orange-500/15 blur-[100px] sm:h-96 sm:w-96 sm:blur-[140px]" />
-
-      <ThemeToggle className="absolute right-4 top-4 z-20 bg-background/40 backdrop-blur-sm sm:right-8 sm:top-8" />
 
       {/* Page content */}
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-7xl flex-col px-4 py-5 sm:px-8 sm:py-8 lg:px-16 lg:py-12">
