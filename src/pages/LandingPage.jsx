@@ -92,14 +92,11 @@ export default function LandingPage() {
               asChild
               variant="secondary"
               size="sm"
-              className="hidden rounded-full min-[420px]:inline-flex sm:h-11 sm:px-5 sm:text-sm"
+              className="hidden shrink-0 rounded-full min-[420px]:inline-flex sm:h-11 sm:px-5 sm:text-sm"
             >
               <Link to="/login">Sign in</Link>
             </Button>
-            <Button asChild size="sm" className="rounded-full sm:hidden">
-              <Link to="/signup">Start</Link>
-            </Button>
-            <Button asChild size="md" className="hidden rounded-full sm:inline-flex">
+            <Button asChild size="sm" className="shrink-0 rounded-full sm:h-11 sm:px-5 sm:text-sm">
               <Link to="/signup">Get Started</Link>
             </Button>
           </div>
