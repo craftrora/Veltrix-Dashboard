@@ -80,6 +80,46 @@
   --hero-overlay-from: #050607;
   --hero-overlay-via: rgba(5, 6, 7, 0.85);
   --hero-overlay-to: rgba(124, 45, 18, 0.55);
+
+  /* Map cartography palette (Google-Maps-style, dark variant).
+     Used by MineMap / OperatorRouteMap SVG fills. */
+  --map-land: #11161d;
+  --map-land-2: #161c25;
+  --map-terrain: #1a212b;
+  --map-water: #14323f;
+  --map-water-edge: #1d4a5c;
+  --map-road-casing: #2b333f;
+  --map-road-fill: #3c4756;
+  --map-road-major: #5a6677;
+  --map-road-haul: #6b5333;
+  --map-area-pit: rgba(249, 115, 22, 0.07);
+  --map-area-pit-edge: rgba(249, 115, 22, 0.3);
+  --map-area-restricted: rgba(239, 68, 68, 0.06);
+  --map-label: rgba(245, 246, 247, 0.55);
+  --map-label-strong: rgba(245, 246, 247, 0.82);
+
+  /* Satellite imagery palette (constant across themes) */
+  --sat-bg: #2b251e;
+  --sat-ground: #3a3026;
+  --sat-veg: #2f3b22;
+  --sat-veg-hi: #46582f;
+  --sat-pit-rim: #7a6a4d;
+  --sat-pit-1: #6f6149;
+  --sat-pit-2: #574a34;
+  --sat-pit-3: #443827;
+  --sat-pit-4: #332b1d;
+  --sat-dump-1: #6e5d40;
+  --sat-dump-2: #84714d;
+  --sat-dump-3: #9a875e;
+  --sat-water: #1d3a39;
+  --sat-water-hi: #2f5754;
+  --sat-road: #a99a7c;
+  --sat-road-edge: #6e6347;
+  --sat-roof: #c4c8ce;
+  --sat-roof-dark: #868b92;
+  --sat-label: #f6f4ef;
+  --sat-label-shadow: #000000;
+  --sat-pin-bg: #ffffff;
 }
 
 /* ============================================================
@@ -152,6 +192,45 @@
   --hero-overlay-from: #fffaf5;
   --hero-overlay-via: rgba(255, 250, 245, 0.88);
   --hero-overlay-to: rgba(253, 186, 116, 0.5);
+
+  /* Map cartography palette (Google-Maps-style, light variant). */
+  --map-land: #eef1ec;
+  --map-land-2: #e6ebe2;
+  --map-terrain: #e3e0d6;
+  --map-water: #aadaff;
+  --map-water-edge: #8ec9f5;
+  --map-road-casing: #d7dbe0;
+  --map-road-fill: #ffffff;
+  --map-road-major: #fff3d6;
+  --map-road-haul: #f6e2c4;
+  --map-area-pit: rgba(234, 88, 12, 0.08);
+  --map-area-pit-edge: rgba(234, 88, 12, 0.4);
+  --map-area-restricted: rgba(220, 38, 38, 0.07);
+  --map-label: rgba(20, 24, 31, 0.6);
+  --map-label-strong: rgba(20, 24, 31, 0.85);
+
+  /* Satellite imagery palette (constant across themes) */
+  --sat-bg: #2b251e;
+  --sat-ground: #3a3026;
+  --sat-veg: #2f3b22;
+  --sat-veg-hi: #46582f;
+  --sat-pit-rim: #7a6a4d;
+  --sat-pit-1: #6f6149;
+  --sat-pit-2: #574a34;
+  --sat-pit-3: #443827;
+  --sat-pit-4: #332b1d;
+  --sat-dump-1: #6e5d40;
+  --sat-dump-2: #84714d;
+  --sat-dump-3: #9a875e;
+  --sat-water: #1d3a39;
+  --sat-water-hi: #2f5754;
+  --sat-road: #a99a7c;
+  --sat-road-edge: #6e6347;
+  --sat-roof: #c4c8ce;
+  --sat-roof-dark: #868b92;
+  --sat-label: #f6f4ef;
+  --sat-label-shadow: #000000;
+  --sat-pin-bg: #ffffff;
 
   color-scheme: light;
 }

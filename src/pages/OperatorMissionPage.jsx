@@ -1,6 +1,8 @@
 import { MapPin, Clock, Package, AlertTriangle, ChevronRight } from "lucide-react";
 import OperatorShell from "../components/OperatorShell";
 import StatusBadge from "../components/StatusBadge";
+import ProductionProcess from "../components/ProductionProcess";
+import IdleTimeIndicator from "../components/IdleTimeIndicator";
 import { CURRENT_MISSION, UPCOMING_MISSIONS, CURRENT_OPERATOR } from "../data/operatorData";
 
 export default function OperatorMissionPage() {
@@ -64,6 +66,10 @@ export default function OperatorMissionPage() {
           <p className="text-xs leading-relaxed text-foreground/90">{CURRENT_MISSION.instructions}</p>
         </div>
       </div>
+
+      {/* Production process + idle time */}
+      <ProductionProcess />
+      <IdleTimeIndicator />
 
       {/* Upcoming missions */}
       <div className="animate-fade-up" style={{ animationDelay: "140ms" }}>

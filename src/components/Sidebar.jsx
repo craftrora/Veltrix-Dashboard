@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutGrid,
   Truck,
@@ -34,6 +34,12 @@ const NAV_ITEMS = [
  */
 export default function Sidebar({ open = false, onClose }) {
   const { session, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
 
   return (
     <>
@@ -102,7 +108,7 @@ export default function Sidebar({ open = false, onClose }) {
             </div>
           </div>
           <button
-            onClick={logout}
+            onClick={handleSignOut}
             className="flex w-full items-center gap-3 rounded-lg px-3.5 py-2.5 text-sm font-medium text-muted-foreground transition-colors surface-chip-hover hover:text-foreground"
           >
             <LogOut className="h-4.5 w-4.5 shrink-0" />

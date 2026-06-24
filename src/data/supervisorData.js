@@ -312,3 +312,128 @@ export const SAFETY_METRICS = [
   { label: "Safety compliance", value: "98.2%", trend: "up" },
   { label: "Training completion", value: "94%", trend: "up" },
 ];
+
+// ============================================================
+// Map landmarks & fuel stations (for the Live Mine Map)
+// Coordinates are percentages of the 100 x 62.5 map viewport.
+// ============================================================
+
+export const MAP_LANDMARKS = [
+  { id: "lm-workshop", name: "Workshop", kind: "workshop", x: 50, y: 80 },
+  { id: "lm-crusher", name: "Crusher Station 2", kind: "crusher", x: 86, y: 56 },
+  { id: "lm-office", name: "Site Office", kind: "office", x: 36, y: 68 },
+  { id: "lm-stockpile", name: "ROM Stockpile", kind: "stockpile", x: 88, y: 80 },
+  { id: "lm-pond", name: "Sediment Pond", kind: "pond", x: 14, y: 40 },
+];
+
+export const FUEL_STATIONS = [
+  { id: "spbu-1", name: "SPBU Hauling A", x: 44, y: 64, available: true, dieselPct: 78 },
+  { id: "spbu-2", name: "SPBU Workshop", x: 64, y: 84, available: true, dieselPct: 41 },
+];
+
+// ============================================================
+// Per-unit telemetry for the Fleet detail panel.
+// Generated deterministically from the unit id so values are
+// realistic, stable across renders, and type-aware. Mirrors the
+// shape a CAN-bus / VIMS telemetry API would return per machine.
+// ============================================================
+
+function seededRandom(seedStr) {
+  let h = 2166136261;
+  for (let i = 0; i < seedStr.length; i++) {
+    h ^= seedStr.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return () => {
+    h = Math.imul(h ^ (h >>> 15), h | 1);
+    h ^= h + Math.imul(h ^ (h >>> 7), h | 61);
+    return ((h ^ (h >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const PAYLOAD_CAPACITY = {
+  "Caterpillar 793F": 227,
+  "Komatsu PC2000": 0,
+  "Caterpillar D11": 0,
+  "Epiroc Pit Viper 271": 0,
+};
+
+const DUTY_LABEL = {
+  excavator: "Bucket 12 m³",
+  dozer: "Blade 34 m³",
+  drill: "Rotary 271 mm",
+};
+
+function rangeStatus(value, okMax, warnMax) {
+  if (value <= okMax) return "ok";
+  if (value <= warnMax) return "warning";
+  return "critical";
+}
+
+function buildTelemetry(unit) {
+  const rand = seededRandom(unit.id);
+  const between = (min, max) => min + rand() * (max - min);
+  const isOn = unit.status === "active" || unit.status === "idle";
+  const isHaul = unit.type === "haul-truck";
+  const tracked = unit.type !== "haul-truck";
+
+  const oilPct = Math.round(
+    unit.status === "maintenance" ? between(28, 46) : between(58, 96)
+  );
+  const engineTempC = Math.round(
+    unit.status === "active"
+      ? between(86, 97)
+      : unit.status === "idle"
+        ? between(74, 84)
+        : between(30, 38)
+  );
+  const engineHoursLifetime = Math.round(between(4200, 20800));
+  const capacity = PAYLOAD_CAPACITY[unit.model] ?? 0;
+  const payloadTonnes = isHaul ? Math.round((unit.load / 100) * capacity) : null;
+
+  const hydraulicPressureBar = Math.round(
+    isOn ? (isHaul ? between(160, 210) : between(255, 340)) : between(8, 24)
+  );
+  const suspensionPressureBar = Math.round(isHaul ? between(150, 195) : between(95, 140));
+  const batteryVoltage = Number(
+    (isOn ? between(27.4, 28.6) : between(24.1, 25.2)).toFixed(1)
+  );
+  const batteryCurrentA = Math.round(isOn ? between(18, 64) : between(-9, -2));
+  const avgSpeedKph = Math.round(
+    unit.status === "active" ? (isHaul ? between(18, 31) : between(2, 9)) : 0
+  );
+  const tireFront = Math.round(between(102, 116));
+  const tireRear = Math.round(between(108, 122));
+
+  return {
+    oilPct,
+    oilStatus: oilPct >= 55 ? "ok" : oilPct >= 35 ? "warning" : "critical",
+    fuelPct: unit.fuelPct,
+    fuelStatus: unit.fuelPct >= 50 ? "ok" : unit.fuelPct >= 25 ? "warning" : "critical",
+    engineTempC,
+    engineTempStatus: rangeStatus(engineTempC, 95, 102),
+    engineHoursLifetime,
+    engineHoursToday: unit.hoursToday,
+    suspensionId: `SUS-${unit.id.split("-")[1]}${tracked ? "T" : "H"}`,
+    suspensionStatus: rand() > 0.78 ? "warning" : "ok",
+    suspensionPressureBar,
+    tracked,
+    payloadTonnes,
+    payloadCapacityTonnes: capacity,
+    payloadPct: isHaul && capacity ? Math.round((payloadTonnes / capacity) * 100) : null,
+    dutyLabel: DUTY_LABEL[unit.type] ?? null,
+    tirePressureFrontPsi: tracked ? null : tireFront,
+    tirePressureRearPsi: tracked ? null : tireRear,
+    hydraulicPressureBar,
+    hydraulicStatus: rangeStatus(hydraulicPressureBar, isHaul ? 215 : 345, isHaul ? 235 : 365),
+    batteryVoltage,
+    batteryCurrentA,
+    batteryStatus: batteryVoltage >= 26 || !isOn ? "ok" : "warning",
+    avgSpeedKph,
+  };
+}
+
+export const FLEET_TELEMETRY = FLEET_UNITS.reduce((acc, unit) => {
+  acc[unit.id] = buildTelemetry(unit);
+  return acc;
+}, {});

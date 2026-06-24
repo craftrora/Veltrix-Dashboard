@@ -1,5 +1,6 @@
 import { Navigation2, Gauge, Clock3, Route as RouteIcon, Check, AlertCircle } from "lucide-react";
 import OperatorShell from "../components/OperatorShell";
+import OperatorRouteMap from "../components/OperatorRouteMap";
 import { ROUTE_STEPS, ROUTE_STATS } from "../data/operatorData";
 import { cn } from "../lib/utils";
 
@@ -16,6 +17,9 @@ export default function OperatorRoutePage() {
         <p className="text-sm text-muted-foreground">Active mission MSN-4471</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Route Guidance</h1>
       </div>
+
+      {/* Route map with waypoints */}
+      <OperatorRouteMap />
 
       {/* Next turn banner */}
       <div className="glass-elevated animate-fade-up flex items-center gap-4 rounded-2xl p-5" style={{ animationDelay: "60ms" }}>

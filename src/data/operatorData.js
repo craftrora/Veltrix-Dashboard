@@ -133,3 +133,60 @@ export const SAFETY_CHECKLIST = [
   { id: 5, label: "Site hazard briefing", done: true },
   { id: 6, label: "Fire extinguisher check", done: false },
 ];
+
+// ============================================================
+// Production cycle process (operator view)
+// One full load-haul-dump cycle, broken into stages.
+// ============================================================
+
+export const PRODUCTION_PROCESS = {
+  cycleNumber: 12,
+  cycleTimeMin: 9.4,
+  targetCycleMin: 8.5,
+  currentStage: "haul",
+  stages: [
+    { id: "spot", label: "Spot", description: "Position under excavator", icon: "spot", status: "done", durationMin: 0.8 },
+    { id: "load", label: "Load", description: "5 passes · 218 t", icon: "load", status: "done", durationMin: 2.6 },
+    { id: "haul", label: "Haul", description: "To Crusher Station 2", icon: "haul", status: "current", durationMin: 3.1 },
+    { id: "queue", label: "Queue", description: "Dump-point wait", icon: "queue", status: "upcoming", durationMin: 0.9 },
+    { id: "dump", label: "Dump", description: "Tip at crusher", icon: "dump", status: "upcoming", durationMin: 0.6 },
+    { id: "return", label: "Return", description: "Back to dig face", icon: "return", status: "upcoming", durationMin: 2.4 },
+  ],
+};
+
+// ============================================================
+// Idle-time status (operator view)
+// ============================================================
+
+export const IDLE_STATUS = {
+  state: "moving", // "moving" | "idle"
+  currentIdleMin: 0,
+  idleTodayMin: 38,
+  targetIdleMin: 45,
+  shiftElapsedMin: 372,
+  idlePctOfShift: 10.2,
+  lastIdleEvent: { reason: "Loading queue at dig face", durationMin: 4.2, time: "11:52" },
+  breakdown: [
+    { reason: "Loading queue", min: 16 },
+    { reason: "Dump-point wait", min: 11 },
+    { reason: "Shift handover", min: 7 },
+    { reason: "Refuel", min: 4 },
+  ],
+};
+
+// ============================================================
+// Route waypoints (operator route map)
+// Coordinates are percentages of a 100 x 60 map viewport.
+// ============================================================
+
+export const ROUTE_WAYPOINTS = [
+  { id: "wp-1", label: "Pit A — North Bench", kind: "load", status: "done", x: 14, y: 24, note: "Loading point" },
+  { id: "wp-2", label: "Haul Road 2", kind: "checkpoint", status: "current", x: 36, y: 40, note: "Grade 8% · wet patch" },
+  { id: "wp-3", label: "Checkpoint 3", kind: "checkpoint", status: "upcoming", x: 58, y: 30, note: "Yield to haul trucks" },
+  { id: "wp-4", label: "Crusher Station 2", kind: "dump", status: "upcoming", x: 86, y: 46, note: "Dump point" },
+];
+
+export const ROUTE_FUEL_STATION = { id: "spbu-route", name: "SPBU Hauling A", x: 48, y: 52, dieselPct: 78 };
+
+// Truck current position along the route (percent of viewport).
+export const ROUTE_TRUCK_POSITION = { x: 30, y: 36, headingDeg: 38 };

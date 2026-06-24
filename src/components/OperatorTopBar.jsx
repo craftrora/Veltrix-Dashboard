@@ -1,4 +1,5 @@
 import { Wifi, Battery, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "../context/useAuth";
@@ -6,7 +7,13 @@ import { CURRENT_OPERATOR } from "../data/operatorData";
 
 export default function OperatorTopBar() {
   const { logout } = useAuth();
+  const navigate = useNavigate();
   const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
+
+  const handleSignOut = () => {
+    logout();
+    navigate("/", { replace: true });
+  };
 
   return (
     <header className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-background/90 px-5 py-4 backdrop-blur-xl">
@@ -37,7 +44,7 @@ export default function OperatorTopBar() {
         </div>
         <ThemeToggle />
         <button
-          onClick={logout}
+          onClick={handleSignOut}
           className="flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:text-foreground"
           aria-label="Sign out"
         >
